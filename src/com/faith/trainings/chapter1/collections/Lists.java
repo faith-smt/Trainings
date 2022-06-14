@@ -31,6 +31,9 @@ public class Lists {
 		l1.process();
 	}
 
+	/**
+	 * Creates list and adds people to the list
+	 */
 	public void process() {
 		List<String> people = new ArrayList<String>();
 		people.add("01 " + "Faith " + "Johnson");
@@ -43,7 +46,7 @@ public class Lists {
 	}
 
 	/**
-	 * Shuffle list of people
+	 * Shuffles list of people
 	 * @param people
 	 */
 	public void shuffle(List<String> people) {
@@ -51,7 +54,7 @@ public class Lists {
 	}
 	
 	/**
-	 * Print list of people
+	 * Prints list of people
 	 * @param people
 	 */
 	public void print(List<String> people) {
