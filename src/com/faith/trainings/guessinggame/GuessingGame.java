@@ -29,6 +29,9 @@ public class GuessingGame {
 		t1.promptDictionary();
 
 		// create a player object
+		Person player = new Person();
+//		player.setFirstName("Faith");
+//		System.out.println(player.getFirstName());
 	}
 
 	// process method/controller
@@ -51,18 +54,20 @@ public class GuessingGame {
 
 		boolean isGuessRight = false;
 
-		// check guess by comparing to target number- should be inside a while loop
-		if (playerGuess == targetNum) {
-			isGuessRight = true;
-			System.out.println("You guessed right");
-		} else if (playerGuess > targetNum) {
-			isGuessRight = false;
-			System.out.println("Too high, guess again");
+		while (isGuessRight = false)
 
-		} else if (playerGuess < targetNum) {
-			isGuessRight = false;
-			System.out.println("Too low, guess again");
-		}
+			// check guess by comparing to target number
+			if (playerGuess == targetNum) {
+				isGuessRight = true;
+				System.out.println("You guessed right");
+			} else if (playerGuess > targetNum) {
+				isGuessRight = false;
+				System.out.println("Too high, guess again");
+
+			} else if (playerGuess < targetNum) {
+				isGuessRight = false;
+				System.out.println("Too low, guess again");
+			}
 
 		// win game conditions
 
