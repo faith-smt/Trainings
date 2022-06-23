@@ -3,6 +3,9 @@
  */
 package com.faith.trainings.guessinggame;
 
+import java.util.LinkedHashMap;
+import java.util.Random;
+
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
@@ -21,82 +24,127 @@ import java.util.Scanner;
 
 public class GuessingGame {
 
+	String playAgain = "";
+
+	int playerGuess;
+
+	Player player = new Player();
+
+	Translator t1 = new Translator();
+
+	// Launch the app
 	public static void main(String[] args) {
 		GuessingGame g1 = new GuessingGame();
 		g1.process();
 
-		Translator t1 = new Translator();
-		t1.promptDictionary();
-
-		// create a player object
-		Person player = new Person();
-//		player.setFirstName("Faith");
-//		System.out.println(player.getFirstName());
 	}
 
-	// process method/controller
+	/**
+	 * process method/controller
+	 */
 	public void process() {
+		startGame();
 
-		// guessCounter
-		int guessCounter;
-		// start game- triggers ask for language and generate target number
-		int targetNum = generateTargetNumber();
-		System.out.println(targetNum);
+		do {
+			System.out.println(t1.getPrompt("welcome"));
 
-		// get translator
+//			 Generate target number
+			int targetNum = generateTargetNumber();
+			System.out.println(" Target Number: " + targetNum);
 
-		// ask for guess using scanner
-		// command line input
-		Scanner in = new Scanner(System.in);
-		System.out.println("Enter a number between 1-100");
-		int playerGuess = in.nextInt();
-		System.out.println("You guessed: " + playerGuess);
+			// Check the players guess
+			playRound(player.guessCounter, targetNum);
 
-		boolean isGuessRight = false;
+			// Check if the player wants to play again
+			System.out.println(t1.getPrompt("playAgain"));
+			this.playAgain = getStringInput();
 
-		while (isGuessRight = false)
+		} while (this.playAgain.equalsIgnoreCase("y"));
+		System.out.println(t1.getPrompt("endGame"));
+
+	}
+
+	/**
+	 * Start the game by calling methods to enter the players name and choose
+	 * language preference
+	 */
+	public void startGame() {
+		enterName();
+		enterLanguage();
+	}
+
+	/**
+	 * Get name from command line
+	 */
+	public void enterName() {
+		System.out.println("Enter your name");
+		String name = getStringInput();
+		player.setFirstName(name);
+		System.out.println("Hello " + name);
+	}
+
+	/**
+	 * Get language preference from command line
+	 */
+	public void enterLanguage() {
+		System.out.println("Enter eng to select English or span to select Spanish");
+		String language = getStringInput();
+		t1.language = language;
+	}
+
+	/**
+	 * @return string input
+	 */
+	public String getStringInput() {
+		// Initialize scanner class
+		Scanner strInput = new Scanner(System.in);
+		return strInput.nextLine();
+
+	}
+
+	/**
+	 * @return integer input
+	 */
+	public int getIntInput() {
+		Scanner intInput = new Scanner(System.in);
+		return intInput.nextInt();
+	}
+
+	/**
+	 * @param playerGuess
+	 * @param guessCounter
+	 * @param targetNum
+	 * @param input
+	 */
+	public void playRound(int guessCounter, int targetNum) {
+
+		while (playerGuess != targetNum) {
+			playerGuess = getIntInput();
 
 			// check guess by comparing to target number
 			if (playerGuess == targetNum) {
-				isGuessRight = true;
-				System.out.println("You guessed right");
+				System.out.println(t1.getPrompt("winner"));
+				System.out.printf(t1.getPrompt("numOfTries") + player.guessCounter);
+
 			} else if (playerGuess > targetNum) {
-				isGuessRight = false;
-				System.out.println("Too high, guess again");
+				player.guessCounter++;
+				System.out.println(t1.getPrompt("tooHigh"));
 
 			} else if (playerGuess < targetNum) {
-				isGuessRight = false;
-				System.out.println("Too low, guess again");
+				player.guessCounter++;
+				System.out.println(t1.getPrompt("tooLow"));
 			}
-
-		// win game conditions
-
-	}
-
-	public void startGame() {
+		}
 
 	}
 
-	public void getTranslator() {
-
-	}
-
-	public void checkGuess() {
-		// inside of a while loop
-		// check guess by comparing to target number
-
-	}
-
-	public void guessScanner() {
-		// ask for guess using scanner
-	}
-
+	/**
+	 * @return random integer
+	 */
 	public int generateTargetNumber() {
-		// generate targetNum
-		return (int) (Math.random() * 10);
-	}
-
-	public void winGame() {
-		// conditions to win the game
+		Random r = new Random();
+		int min = 1;
+		int max = 100;
+		return r.nextInt(max - min) + min;
 	}
 }
