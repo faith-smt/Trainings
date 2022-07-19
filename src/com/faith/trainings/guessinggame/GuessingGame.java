@@ -3,11 +3,7 @@
  */
 package com.faith.trainings.guessinggame;
 
-import java.util.LinkedHashMap;
-import java.util.Random;
-
-import java.io.InputStreamReader;
-import java.util.Scanner;
+import java.util.*;
 
 /****************************************************************************
  * <b>Title:</b> GuessingGame.java <br>
@@ -24,9 +20,7 @@ import java.util.Scanner;
 
 public class GuessingGame {
 
-	String playAgain = "";
-
-	int playerGuess;
+	private int playerGuess;
 
 	Player player = new Player();
 
@@ -36,13 +30,14 @@ public class GuessingGame {
 	public static void main(String[] args) {
 		GuessingGame g1 = new GuessingGame();
 		g1.process();
-
 	}
 
 	/**
-	 * process method/controller
+	 * Constructor
 	 */
 	public void process() {
+		String playAgain = "";
+
 		startGame();
 
 		do {
@@ -57,9 +52,9 @@ public class GuessingGame {
 
 			// Check if the player wants to play again
 			System.out.println(t1.getPrompt("playAgain"));
-			this.playAgain = getStringInput();
+			playAgain = getStringInput();
 
-		} while (this.playAgain.equalsIgnoreCase("y"));
+		} while (playAgain.equalsIgnoreCase("y"));
 		System.out.println(t1.getPrompt("endGame"));
 
 	}
@@ -69,25 +64,25 @@ public class GuessingGame {
 	 * language preference
 	 */
 	public void startGame() {
-		enterName();
 		enterLanguage();
+		enterName();
 	}
 
 	/**
 	 * Get name from command line
 	 */
 	public void enterName() {
-		System.out.println("Enter your name");
+		System.out.println(t1.getPrompt("enterName"));
 		String name = getStringInput();
 		player.setFirstName(name);
-		System.out.println("Hello " + name);
+		System.out.println(name);
 	}
 
 	/**
 	 * Get language preference from command line
 	 */
 	public void enterLanguage() {
-		System.out.println("Enter eng to select English or span to select Spanish");
+		System.out.println(t1.getPrompt("chooseLanguage"));
 		String language = getStringInput();
 		t1.language = language;
 	}
@@ -120,22 +115,19 @@ public class GuessingGame {
 
 		while (playerGuess != targetNum) {
 			playerGuess = getIntInput();
-
+			player.guessCounter++;
 			// check guess by comparing to target number
 			if (playerGuess == targetNum) {
 				System.out.println(t1.getPrompt("winner"));
 				System.out.printf(t1.getPrompt("numOfTries") + player.guessCounter);
 
 			} else if (playerGuess > targetNum) {
-				player.guessCounter++;
 				System.out.println(t1.getPrompt("tooHigh"));
 
 			} else if (playerGuess < targetNum) {
-				player.guessCounter++;
 				System.out.println(t1.getPrompt("tooLow"));
 			}
 		}
-
 	}
 
 	/**

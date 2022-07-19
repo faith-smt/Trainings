@@ -24,29 +24,31 @@ public class Translator {
 	// Set default language to English
 	String language = "eng";
 
-	// Initialize maps
-	HashMap<String, String> english = new HashMap<String, String>();
-	HashMap<String, String> spanish = new HashMap<String, String>();
+	Map<String, String> english = new HashMap<>();
+	Map<String, String> spanish = new HashMap<>();
 
 	/**
 	 * Constructor
 	 */
 	public Translator() {
 		// Set keys and values for each language
+		english.put("chooseLanguage", "Enter en for English or es to select Spanish");
+		english.put("enterName", "Enter your name");
 		english.put("welcome", "Welcome to the Guessing Game! Enter a number between 1-100.");
 		english.put("winner", "You guessed right! GAME OVER.");
 		english.put("numOfTries", "Number of tries: ");
 		english.put("tooHigh", "Too high, guess again.");
 		english.put("tooLow", "Too low, guess again.");
-		english.put("playAgain", "Would you like to play again?");
+		english.put("playAgain", " Would you like to play again?");
 		english.put("endGame", "Thank you for playing! Goodbye.");
 
+		spanish.put("enterName", "introduzca su nombre");
 		spanish.put("welcome", "¡Bienvenido al juego de adivinanzas! Introduzca un número entre 1 y 100.");
 		spanish.put("winner", "¡Lo adivinaste! JUEGO TERMINADO.");
 		spanish.put("numOfTries", "Número de intentos: ");
 		spanish.put("tooHigh", "Demasiado alto, adivina de nuevo.");
 		spanish.put("tooLow", "Demasiado bajo, adivina de nuevo");
-		spanish.put("playAgain", "¿Te gustaría volver a jugar?");
+		spanish.put("playAgain", " ¿Te gustaría volver a jugar?");
 		spanish.put("endGame", "¡Gracias por jugar! Adiós.");
 	}
 

@@ -23,6 +23,20 @@ public class Player extends Person {
 
 	int guessCounter = 0;
 	
+	/**
+	 * @return the guessCounter
+	 */
+	public int getGuessCounter() {
+		return guessCounter;
+	}
+
+	/**
+	 * @param guessCounter the guessCounter to set
+	 */
+	public void setGuessCounter(int guessCounter) {
+		this.guessCounter = guessCounter;
+	}
+
 	public Player() {
 	}
 	
