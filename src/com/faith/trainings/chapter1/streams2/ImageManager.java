@@ -33,19 +33,20 @@ public class ImageManager {
 
 	public static void main(String[] args) throws IOException {
 		ImageManager im1 = new ImageManager();
-		im1.readImage();
-		im1.writeImage();
+		im1.process();
+	}
 
+	public void process() throws IOException {
+		readImage();
+		writeImage();
 	}
 
 	/**
-	 * @throws IOException 
-	 * Reads image file and converts to byte array
+	 * @throws IOException Reads image file and converts to byte array
 	 */
 	public void readImage() throws IOException {
 
 		try {
-
 			// Reads image file
 			BufferedImage buffImage = ImageIO.read(image);
 			System.out.println("Reading complete");
@@ -62,7 +63,6 @@ public class ImageManager {
 
 			// Reads the image from the object inputStream
 			newImage = ImageIO.read(inputStream);
-
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
@@ -70,17 +70,13 @@ public class ImageManager {
 	}
 
 	/**
-	 * @throws IOException 
-	 * Writes image from byteArray to a new file
+	 * @throws IOException Writes image from byteArray to a new file
 	 */
 	public void writeImage() throws IOException {
-
 		try {
-
 			// Creates new file and writes image from what is read from byteArray
 			ImageIO.write(newImage, "png", outputPath);
 			System.out.println("Write successful");
-
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
