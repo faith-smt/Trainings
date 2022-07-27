@@ -21,72 +21,65 @@ import java.net.*;
  ****************************************************************************/
 
 public class Client {
-
-	// Close streams
-
-	private String hostName = "localhost";
-	private int portNumber = 80;
-	private File outputPath = new File("/home/faith/Documents/Read/testfile3.txt");
+	private File outputPath = new File("/home/faith/Documents/Read/testfile5.txt");
 
 	public static void main(String[] args) throws IOException {
 		Client c1 = new Client();
-		c1.getWebPage();
+		c1.process();
+	}
+
+	public void process() throws IOException {
+		String result = getWebPage();
+		writeFile(result);
 	}
 
 	/**
-	 * @throws UnknownHostException
+	 * Connects to server and retrieves home page. Then stores and returns data in
+	 * result variable
+	 * 
 	 * @throws IOException
 	 */
-	public void getWebPage() throws UnknownHostException, IOException {
-
+	public String getWebPage() throws IOException {
+		String hostName = "localhost";
+		int portNumber = 80;
 		StringBuilder html = new StringBuilder();
 
 		// Create socket and connect to server
-		try (Socket socket = new Socket(hostName, portNumber)) {
-			System.out.println("Socket Created");
+		try {
+			Socket socket = new Socket(hostName, portNumber);
 
 			// Create input and output streams to read and write to the server
-			try (DataOutputStream out = new DataOutputStream(socket.getOutputStream())) {
+			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+			BufferedReader buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-				// Follow the HTTP protocol of GET path
-				out.writeBytes("GET / HTTP/1.1\r\n");
-				out.writeBytes("Host: hostName\r\n");
-				out.writeBytes("\r\n");
-				out.flush();
-				socket.shutdownOutput();
+			// Follow the HTTP protocol of GET path
+			// Retrieve home page of specified web page
+			out.writeBytes("GET / HTTP/1.1\r\n");
+			out.writeBytes("Host: hostName\r\n");
+			out.writeBytes("\r\n");
+			out.flush();
 
-				String outputStr;
-
-				// Open socket input stream and use reader to translate bytes to characters
-				try (BufferedReader buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
-
-					// Read data from the server until finished reading the document
-					while ((outputStr = buffRead.readLine()) != null) {
-						html.append(outputStr);
-						System.out.println(outputStr);
-					}
-					String result = html.toString();
-					System.out.println(result);
-					// Write result to file
-					writeFile(result);
-					socket.shutdownInput();
-				} catch (IOException e) {
-					System.out.println("Error" + e);
-
-				}
-
+			String outputStr;
+			// Read data from the server until finished reading the document
+			while ((outputStr = buffRead.readLine()) != null) {
+				html.append(outputStr);
 			}
+			System.out.println("Result String: " + html.toString());
+			socket.close();
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
 		}
+		return html.toString();
 	}
 
 	/**
-	 * @param result 
-	 * Creates new file to store result in
+	 * Writes result to a file
+	 * 
+	 * @param result
 	 */
 	public void writeFile(String result) {
-
 		try {
-			FileWriter fWriter = new FileWriter(outputPath);
+			BufferedWriter fWriter = new BufferedWriter(new FileWriter(outputPath));
 			fWriter.write(result);
 			fWriter.close();
 			System.out.println("File is created successfully with the content");
