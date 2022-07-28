@@ -21,7 +21,7 @@ import java.net.*;
  ****************************************************************************/
 
 public class Client {
-	private File outputPath = new File("/home/faith/Documents/Read/testfile5.txt");
+	private File outputPath = new File("outputfile.txt");
 
 	public static void main(String[] args) throws IOException {
 		Client c1 = new Client();
@@ -29,28 +29,27 @@ public class Client {
 	}
 
 	public void process() throws IOException {
-		String result = getWebPage();
+		String result = getIndexPage();
 		writeFile(result);
 	}
 
 	/**
-	 * Connects to server and retrieves home page. Then stores and returns data in
-	 * result variable
+	 * Connects to server, reads data from index.html page, and returns a string
+	 * with the html.
 	 * 
 	 * @throws IOException
 	 */
-	public String getWebPage() throws IOException {
+	public String getIndexPage() throws IOException {
 		String hostName = "localhost";
 		int portNumber = 80;
 		StringBuilder html = new StringBuilder();
 
 		// Create socket and connect to server
-		try {
-			Socket socket = new Socket(hostName, portNumber);
+		try (Socket socket = new Socket(hostName, portNumber);
 
-			// Create input and output streams to read and write to the server
-			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-			BufferedReader buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+				// Create input and output streams to read and write to the server
+				DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+				BufferedReader buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
 			// Follow the HTTP protocol of GET path
 			// Retrieve home page of specified web page
@@ -58,17 +57,17 @@ public class Client {
 			out.writeBytes("Host: hostName\r\n");
 			out.writeBytes("\r\n");
 			out.flush();
-
 			String outputStr;
 			// Read data from the server until finished reading the document
 			while ((outputStr = buffRead.readLine()) != null) {
+				// Append outputStr to the string builder
 				html.append(outputStr);
 			}
 			System.out.println("Result String: " + html.toString());
-			socket.close();
 		} catch (IOException e) {
 			System.out.println(e.getMessage());
 		}
+		// Return a string that contains the character sequence in the builder
 		return html.toString();
 	}
 
@@ -78,10 +77,8 @@ public class Client {
 	 * @param result
 	 */
 	public void writeFile(String result) {
-		try {
-			BufferedWriter fWriter = new BufferedWriter(new FileWriter(outputPath));
+		try (BufferedWriter fWriter = new BufferedWriter(new FileWriter(outputPath))) {
 			fWriter.write(result);
-			fWriter.close();
 			System.out.println("File is created successfully with the content");
 		} catch (IOException e) {
 			System.out.print(e.getMessage());

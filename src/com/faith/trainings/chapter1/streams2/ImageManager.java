@@ -8,7 +8,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 /****************************************************************************
@@ -26,9 +25,8 @@ import javax.imageio.ImageIO;
  ****************************************************************************/
 
 public class ImageManager {
-
 	private File image = new File("/home/faith/Pictures/Screenshots/test.png");
-	private File outputPath = new File("/home/faith/Pictures/outputTest.png");
+	private File outputPath = new File("outputTest.png");
 	private BufferedImage newImage;
 
 	public static void main(String[] args) throws IOException {
@@ -42,10 +40,11 @@ public class ImageManager {
 	}
 
 	/**
-	 * @throws IOException Reads image file and converts to byte array
+	 * Reads image file and converts to byte array
+	 * 
+	 * @throws IOException
 	 */
 	public void readImage() throws IOException {
-
 		try {
 			// Reads image file
 			BufferedImage buffImage = ImageIO.read(image);
@@ -66,11 +65,12 @@ public class ImageManager {
 		} catch (IOException e) {
 			System.out.println("Error: " + e);
 		}
-
 	}
 
 	/**
-	 * @throws IOException Writes image from byteArray to a new file
+	 * Writes image from byteArray to a new file
+	 * 
+	 * @throws IOException
 	 */
 	public void writeImage() throws IOException {
 		try {
