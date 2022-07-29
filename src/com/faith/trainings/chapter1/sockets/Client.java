@@ -9,7 +9,7 @@ import java.net.*;
 /****************************************************************************
  * <b>Title:</b> Client.java <br>
  * <b>Project:</b> Trainings <br>
- * <b>Description:</b> Call web server Request a file Write html file to file
+ * <b>Description:</b> Call web server. Request a file. Write file to file
  * system <br>
  * <b>Copyright:</b> Copyright (c) 2022 <br>
  * <b>Company:</b> Silicon Mountain Technologies
@@ -39,7 +39,7 @@ public class Client {
 	}
 
 	/**
-	 * Connects to server, reads data from index.html page, and returns a string
+	 * Connects to server, reads data from page, and returns a string
 	 * with the html.
 	 * 
 	 * @throws IOException
