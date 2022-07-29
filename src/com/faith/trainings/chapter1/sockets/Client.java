@@ -22,14 +22,19 @@ import java.net.*;
 
 public class Client {
 	private File outputPath = new File("outputfile.txt");
+	public enum httpMethod {
+		GET, POST, PUT, DELETE
+	}
 
 	public static void main(String[] args) throws IOException {
 		Client c1 = new Client();
-		c1.process();
+		String hostName = args[0];
+		int portNumber = Integer.parseInt(args[1]);
+		c1.process(hostName, portNumber);
 	}
 
-	public void process() throws IOException {
-		String result = getIndexPage();
+	public void process(String hostName, int portNumber) throws IOException {
+		String result = getIndexPage(hostName, portNumber);
 		writeFile(result);
 	}
 
@@ -39,9 +44,8 @@ public class Client {
 	 * 
 	 * @throws IOException
 	 */
-	public String getIndexPage() throws IOException {
-		String hostName = "localhost";
-		int portNumber = 80;
+	public String getIndexPage(String hostName, int portNumber) throws IOException {
+		httpMethod http = httpMethod.GET;
 		StringBuilder html = new StringBuilder();
 
 		// Create socket and connect to server
@@ -52,15 +56,14 @@ public class Client {
 				BufferedReader buffRead = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
 
 			// Follow the HTTP protocol of GET path
-			// Retrieve home page of specified web page
-			out.writeBytes("GET / HTTP/1.1\r\n");
-			out.writeBytes("Host: hostName\r\n");
+			// Request root
+			out.writeBytes(http + " / HTTP/1.1\r\n");
+			out.writeBytes("Host: " + hostName + "\r\n");
 			out.writeBytes("\r\n");
 			out.flush();
 			String outputStr;
 			// Read data from the server until finished reading the document
 			while ((outputStr = buffRead.readLine()) != null) {
-				// Append outputStr to the string builder
 				html.append(outputStr);
 			}
 			System.out.println("Result String: " + html.toString());
